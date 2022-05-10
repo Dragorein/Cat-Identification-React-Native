@@ -19,32 +19,38 @@ const breed = [
   {id: 12, value: 'Sphynx'},
 ];
 
-const Introduction = () => {
+const IntroductionScreen = ({navigation}) => {
   return (
-    <View
-      style={{
-        backgroundColor: colors.accent,
-        flex: 1,
-        justifyContent: 'space-evenly',
-      }}>
+    <View style={styles.container}>
       <View style={{alignItems: 'center'}}>
         <IlLogoAi />
       </View>
-      <View style={{paddingHorizontal: 40}}>
-        <Text style={{color: colors.black, fontSize: 24}}>
+      <View style={styles.padder}>
+        <Text style={styles.text}>
           Aplikasi Ini merupakan aplikasi identifikasi ras kucing berdasarkan
           gambar atau foto, untuk saat ini aplikasi hanya bisa melakukan
           identifikasi 12 ras kucing domestik.
         </Text>
         <List data={breed} />
       </View>
-      <View style={{paddingHorizontal: 40}}>
-        <Button label="Mulai" />
+      <View style={styles.padder}>
+        <Button
+          label="Mulai"
+          onPress={() => navigation.replace('MainScreen')}
+        />
       </View>
     </View>
   );
 };
 
-export default Introduction;
+export default IntroductionScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: colors.white,
+    flex: 1,
+    justifyContent: 'space-evenly',
+  },
+  padder: {paddingHorizontal: 40},
+  text: {color: colors.black, fontSize: 24},
+});

@@ -6,7 +6,7 @@ export const colors = {
   danger: '#CE3C3E',
   warning: '#EB9E3E',
   placeholder: '#C5C5C5',
-  light: '#F5F5F5',
+  light: '#E0E0E0',
   dark: '#333333',
   black: '#000000',
   white: '#ffffff',

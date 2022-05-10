@@ -1,4 +1,6 @@
-import Splash from './splashScreen';
-import Introduction from './introductionScreen';
+import SplashScreen from './splashScreen';
+import IntroductionScreen from './introductionScreen';
+import MainScreen from './mainScreen';
+import OutputScreen from './outputScreen';
 
-export {Splash, Introduction};
+export {SplashScreen, IntroductionScreen, MainScreen, OutputScreen};
