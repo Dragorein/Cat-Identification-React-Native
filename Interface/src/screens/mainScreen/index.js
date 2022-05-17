@@ -1,7 +1,20 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {Button, HorizontalLine} from '../../components';
 import {colors} from '../../utilities';
+import ImagePicker from 'react-native-image-picker';
+
+const getImageGallery = () => {
+  ImagePicker.launchImageLibrary({}, imageGalleryData => {
+    console.log('response : ', imageGalleryData);
+  });
+};
+
+const getImageCamera = () => {
+  ImagePicker.launchCamera({}, imageCameraData => {
+    console.log('response : ', imageCameraData);
+  });
+};
 
 const MainScreen = ({navigation}) => {
   return (
@@ -12,6 +25,17 @@ const MainScreen = ({navigation}) => {
           <Text style={styles.title}>Ras Kucing Domestik</Text>
         </View>
         <HorizontalLine />
+        <View style={styles.padder}>
+          <View
+            style={{
+              backgroundColor: colors.placeholder,
+              width: 300,
+              height: 300,
+              marginBottom: 20,
+            }}></View>
+          <Button label="Kamera" onPress={getImageCamera} />
+          <Button label="galeri" onPress={getImageGallery} />
+        </View>
         <View style={styles.padder}>
           <Text style={styles.subtitle}>Masukkan Gambar Kucing</Text>
         </View>
