@@ -12,15 +12,14 @@ import {colors} from '../../utilities';
 import ImagePicker from 'react-native-image-picker';
 import {catPlaceholder} from '../../assets';
 import axios from 'axios';
+import Services from '../../services';
+import {useDispatch, useSelector} from 'react-redux';
 
 const MainScreen = ({navigation}) => {
-  const [HasPhoto, setHasPhoto] = useState(false);
   const [Photo, setPhoto] = useState(catPlaceholder);
   const [PhotoData, setPhotoData] = useState();
-  // console.log('---------------------------------------------');
-  // console.log('initial hasPhoto: ', HasPhoto);
-  // console.log('initial photo : ', Photo);
-  // console.log('initial PhotoData : ', PhotoData);
+  const stateGlobal = useSelector(state => state);
+  const dispatch = useDispatch();
 
   const getImageLocal = async () => {
     ImagePicker.launchImageLibrary({}, response => {
@@ -28,7 +27,7 @@ const MainScreen = ({navigation}) => {
       if (source.uri === undefined) {
         Alert.alert('Oops', 'Sepertinya anda belum memilih foto');
       } else {
-        setHasPhoto(true);
+        dispatch({type: 'SET_HASPHOTO', value: true});
         setPhoto(source);
         setPhotoData(response.data);
       }
@@ -36,59 +35,27 @@ const MainScreen = ({navigation}) => {
   };
 
   const upload = async () => {
-    return new Promise((resolve, reject) => {
-      if (HasPhoto) {
-        const dataUpload = new FormData();
-        // console.log('PhotoData', PhotoData);
-        dataUpload.append('images', PhotoData);
-        console.log('dataUpload', dataUpload);
-        const data = {
-          image: PhotoData,
-        };
-        // dataUpload.append('image', {
-        //   uri: response.uri,
-        //   type: response.type,
-        //   name: response.fileName,
-        // });
-        // console.log(dataUpload);
-        const config = {
-          method: 'POST',
-          url: 'http://192.168.100.155:3000/upload',
-          data,
-        };
-        // console.log(config);
-        axios(config)
-          .then(async feed => {
-            console.log('feed ', feed.data);
-            // Alert.alert('Success', feed.data);
-            resolve(feed.data);
-          })
-          .catch(err => {
-            console.log('err ', err);
-            // Alert.alert('Failed', err);
-            reject(err);
-          });
-      }
-    });
+    if (stateGlobal.HasPhoto) {
+      const dataUpload = new FormData();
+      dataUpload.append('images', PhotoData);
+      const data = {
+        image: PhotoData,
+      };
+      const resultData = await Services.Post('predict', data);
+      dispatch({type: 'SET_BASE64', value: resultData.imageBase64});
+      dispatch({type: 'SET_CATBREED', value: resultData.predictionBreed});
+      dispatch({type: 'SET_CATACC', value: resultData.predictionAccuracy});
+      dispatch({type: 'SET_CATINFO', value: resultData.information});
+      dispatch({type: 'SET_CATCHARA', value: resultData.characteristic});
+      console.log(resultData.information);
+      navigation.navigate('OutputScreen');
+    }
   };
 
   const testConnection = async () => {
-    return new Promise((resolve, reject) => {
-      const config = {
-        method: 'GET',
-        url: 'http://192.168.100.155:3000/',
-      };
-
-      axios(config)
-        .then(async feed => {
-          console.log(feed.data);
-          resolve(feed.data);
-        })
-        .catch(err => {
-          console.log(err);
-          reject(err);
-        });
-    });
+    const data = await Services.Get('/');
+    console.log(data.test);
+    Alert.alert('Test Connection', data.test);
   };
 
   return (
@@ -103,14 +70,14 @@ const MainScreen = ({navigation}) => {
           <Text style={styles.subtitle}>Masukkan Gambar Kucing</Text>
         </View>
         <View style={{paddingVertical: 30, justifyContent: 'center'}}>
-          {!HasPhoto && (
+          {!stateGlobal.HasPhoto && (
             <TouchableOpacity
               style={styles.imageContainer}
               onPress={getImageLocal}>
               <Image source={Photo} style={styles.imagePlaceholder} />
             </TouchableOpacity>
           )}
-          {HasPhoto && (
+          {stateGlobal.HasPhoto && (
             <TouchableOpacity
               style={styles.imageContainer}
               onPress={getImageLocal}>
@@ -119,7 +86,7 @@ const MainScreen = ({navigation}) => {
           )}
         </View>
       </View>
-      {!HasPhoto && (
+      {!stateGlobal.HasPhoto && (
         <Button
           disable
           label="Proses"
@@ -128,7 +95,7 @@ const MainScreen = ({navigation}) => {
           }}
         />
       )}
-      {HasPhoto && (
+      {stateGlobal.HasPhoto && (
         // <Button label="Proses" onPress={testConnection} />
         <Button label="Proses" onPress={upload} />
         // <Button

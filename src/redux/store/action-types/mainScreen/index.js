@@ -1,0 +1,4 @@
+const SET_HAS_PHOTO = 'Set_Has_Photo';
+const SET_RESULT_DATA = 'SET_RESULT_DATA';
+
+export {SET_HAS_PHOTO, SET_RESULT_DATA};

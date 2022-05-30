@@ -12,7 +12,7 @@ const hp = val => {
   return heightPercentageToDP(val);
 };
 
-const fontNormalize = val => {
+const fontNormalize = size => {
   return size / PixelRatio.getFontScale();
 };
 
