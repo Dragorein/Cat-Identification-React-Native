@@ -34,7 +34,6 @@ const OutputScreen = ({navigation}) => {
             style={styles.imageContainer}
             source={{uri: `data:image/jpg;base64,${stateGlobal.base64Image}`}}
           />
-          {/* pindah ke molecule sebagai card / content */}
           <View style={styles.padder}>
             <View style={styles.card}>
               <Text style={styles.text}>Keyakinan model :</Text>
@@ -75,9 +74,19 @@ const OutputScreen = ({navigation}) => {
 export default OutputScreen;
 
 const styles = StyleSheet.create({
-  page: {flex: 1, paddingHorizontal: 30},
-  padder: {paddingVertical: 30},
-  title: {fontSize: 35, color: colors.black, textAlign: 'center'},
+  page: {
+    flex: 1,
+    paddingHorizontal: 30,
+    marginBottom: 40,
+  },
+  padder: {
+    paddingVertical: 30,
+  },
+  title: {
+    fontSize: 35,
+    color: colors.black,
+    textAlign: 'center',
+  },
   card: {
     backgroundColor: colors.light,
     shadowColor: colors.dark,
@@ -94,7 +103,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  hrPadder: {paddingBottom: 50},
+  hrPadder: {
+    paddingBottom: 50,
+  },
   text: {
     fontSize: 30,
     color: colors.black,

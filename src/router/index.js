@@ -11,7 +11,7 @@ const Stack = createNativeStackNavigator();
 
 const Router = () => {
   return (
-    <Stack.Navigator initialRouteName="MainScreen">
+    <Stack.Navigator initialRouteName="">
       <Stack.Screen
         name="SplashScreen"
         component={SplashScreen}

@@ -7,6 +7,7 @@ const initialState = {
   catInfo: [],
   catChara: [],
   catAccuracy: 0,
+  loading: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -40,6 +41,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         catChara: action.value,
+      };
+    case 'SET_LOADING':
+      return {
+        ...state,
+        loading: action.value,
       };
   }
 

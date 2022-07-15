@@ -10,4 +10,5 @@ export const colors = {
   dark: '#333333',
   black: '#000000',
   white: '#ffffff',
+  loading: 'rgba(0, 0, 0, 0.5)',
 };

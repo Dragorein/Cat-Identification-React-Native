@@ -1,17 +1,19 @@
-import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {Introduction, Splash} from './screens';
 import {NavigationContainer} from '@react-navigation/native';
 import Router from './router';
 import {Provider, useSelector} from 'react-redux';
 import store from './redux/store/reducers/main';
+import {Loading} from './components/molecule';
 
 const MainApp = () => {
   const stateGlobal = useSelector(state => state);
   return (
-    <NavigationContainer>
-      <Router />
-    </NavigationContainer>
+    <>
+      <NavigationContainer>
+        <Router />
+      </NavigationContainer>
+      {stateGlobal.loading && <Loading />}
+    </>
   );
 };
 
@@ -24,5 +26,3 @@ const App = () => {
 };
 
 export default App;
-
-const styles = StyleSheet.create({});
